@@ -81,13 +81,14 @@
 <!-- ——— Blog loader (marked.js) ——— -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
+  // Φορτώνει δυναμικά Markdown posts
   document.addEventListener("DOMContentLoaded", () => {
-    fetch("/posts/posts.json")
+    fetch("posts/posts.json")
       .then(r => r.ok ? r.json() : [])
       .then(list => {
         const container = document.getElementById("dynamic-posts");
         list.forEach(item => {
-          fetch(`/posts/${item.file}`)
+          fetch(`posts/${item.file}`)
             .then(res => res.text())
             .then(md => {
               const article = document.createElement("article");
@@ -114,16 +115,6 @@
 
   <section id="daily-tips">
     <h2>Σκέψεις & Συμβουλές</h2>
-    <!-- Παράδειγμα στατικού άρθρου -->
-    <article>
-      <h3>04/08/2025 — Ζεστό καλοκαίρι</h3>
-      <p>
-        Η σωστή ενυδάτωση βοηθά στη ρύθμιση της θερμοκρασίας του σώματος,
-        στη λειτουργία των αρθρώσεων και στη μεταφορά των θρεπτικών
-        συστατικών. Στόχος: 6–8 ποτήρια νερό την ημέρα το καλοκαίρι.
-      </p>
-    </article>
-
     <!-- Markdown posts εμφανίζονται εδώ -->
     <div id="dynamic-posts"></div>
   </section>
