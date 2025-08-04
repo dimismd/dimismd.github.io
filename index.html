@@ -1,129 +1,130 @@
-9<!DOCTYPE html>
-<html lang="el">
+<!DOCTYPE html><html lang="el">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Δημήτριος Καζάζης | Dimitrios Kazazis</title>
-    <style>
-      /* ——— General Layout ——— */
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f4f4f4;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-      header {
-        background-color: #002f5f;
-        color: #fff;
-        padding: 2rem 1rem;
-        text-align: center;
-      }
-      h1,
-      h2,
-      h3 {
-        margin: 0.25rem 0;
-      }
+    <title>Δημήτριος Καζάζης | Dimitrios Kazazis</title><style>
+  /* ——— General Layout ——— */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    background-color: #002f5f;
+    color: #fff;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  h1, h2, h3 { margin: 0.25rem 0; }
 
-      /* ——— Navigation Button ——— */
-      .book-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        width: 4cm;   /* πλάτος */
-        height: 2cm;  /* ύψος */
-        box-sizing: border-box; /* ώστε το border/padding να υπολογίζεται σωστά */
-        padding: 0.25rem;
-        background: #fff;
-        color: #002f5f;
-        border: 2px solid #fff;
-        border-radius: 4px;
-        font-weight: bold;
-        text-decoration: none;
-        line-height: 1.2;
-        white-space: normal; /* επιτρέπει αλλαγή γραμμής αν χρειαστεί */
-        overflow-wrap: anywhere;
-        transition: background 0.3s, color 0.3s;
-      }
-      .book-btn:hover {
-        background: transparent;
-        color: #fff;
-      }
+  /* ——— Navigation Button ——— */
+  .book-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 4cm;   /* πλάτος */
+    height: 2cm;  /* ύψος */
+    box-sizing: border-box;
+    padding: 0.25rem;
+    background: #fff;
+    color: #002f5f;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    transition: background 0.3s, color 0.3s;
+  }
+  .book-btn:hover { background: transparent; color: #fff; }
 
-      /* ——— Main Content ——— */
-      main {
-        flex: 1;
-        width: 100%;
-        max-width: 900px;
-        margin: 2rem auto;
-        background: #fff;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      #daily-tips > article {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      #daily-tips > article:last-of-type {
-        border: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
-      footer {
-        text-align: center;
-        font-size: 0.9rem;
-        color: #700;
-        padding: 1rem 0;
-      }
-    </style>
+  /* ——— Main Content ——— */
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #daily-tips > article {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  #daily-tips > article:last-of-type {
+    border: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #700;
+    padding: 1rem 0;
+  }
+</style>
+
+<!-- ——— Blog loader (marked.js) ——— -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("/posts/posts.json")
+      .then(r => r.ok ? r.json() : [])
+      .then(list => {
+        const container = document.getElementById("dynamic-posts");
+        list.forEach(item => {
+          fetch(`/posts/${item.file}`)
+            .then(res => res.text())
+            .then(md => {
+              const article = document.createElement("article");
+              article.innerHTML = marked.parse(md);
+              container.prepend(article);
+            });
+        });
+      })
+      .catch(err => console.error("Blog loader error:", err));
+  });
+</script>
+
   </head>
   <body>
     <header>
       <h1>Δημήτριος Καζάζης</h1>
       <h2>Dimitrios Kazazis</h2>
       <h3>Internist / Ειδικός Παθολόγος</h3>
-      <a class="book-btn" href="https://dimismd.github.io/appointments.html">Κλείστε Ραντεβού με τον Ιατρό</a>
-    </header>
+      <a class="book-btn" href="/appointments.html">Κλείστε Ραντεβού με τον Ιατρό</a>
+    </header><main>
+  <section id="intro">
+    <p>Καλώς ορίσατε στην προσωπική ιστοσελίδα του Δημήτριου Καζάζη.</p>
+  </section>
 
-    <main>
-      <section id="intro">
-        <p>
-          Καλώς ορίσατε στην προσωπική ιστοσελίδα του Δημήτριου Καζάζη.
-        </p>
-      </section>
+  <section id="daily-tips">
+    <h2>Σκέψεις & Συμβουλές</h2>
+    <!-- Παράδειγμα στατικού άρθρου -->
+    <article>
+      <h3>04/08/2025 Ζεστό καλοκαίρι</h3>
+      <p>
+        Η σωστή ενυδάτωση βοηθά στη ρύθμιση της θερμοκρασίας του σώματος,
+        στη λειτουργία των αρθρώσεων και στη μεταφορά των θρεπτικών
+        συστατικών. Στόχος: 6–8 ποτήρια νερό την ήμερα το καλοκαίρι.
+      </p>
+    </article>
 
-      <section id="daily-tips">
-        <h2>Σκέψεις & Συμβουλές</h2>
+    <!-- Markdown posts εμφανίζονται εδώ -->
+    <div id="dynamic-posts"></div>
+  </section>
+</main>
 
-        <!--
-        ============================================================
-        Για να προσθέσετε νέο άρθρο:
-        1. Αντιγράψτε το <article> block.
-        2. Επικολλήστε το ακριβώς κάτω από το προηγούμενο.
-        3. Τροποποιήστε την ημερομηνία, τον τίτλο και το περιεχόμενο.
-        ============================================================
-        -->
+<footer>© 2025 Δημήτριος Καζάζης — All rights reserved.</footer>
 
-        <article>
-          <h3>04/08/2025 Ζεστό καλοκαίρι </h3>
-          <p>
-            Η σωστή ενυδάτωση βοηθά στη ρύθμιση της θερμοκρασίας του σώματος,
-            στη λειτουργία των αρθρώσεων και στη μεταφορά των θρεπτικών
-            συστατικών. Στόχος: 6–8 ποτήρια νερό την ήμερα το καλοκαίρι.
-          </p>
-        </article>
-
-        <!-- Νέα άρθρα εδώ -->
-      </section>
-    </main>
-
-    <footer>© 2025 Δημήτριος Καζάζης — All rights reserved.</footer>
   </body>
 </html>
