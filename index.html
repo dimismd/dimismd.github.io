@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Δημήτριος Καζάζης | Dimitrios Kazazis</title>
+    <title>Ραντεβού — Δημήτριος Καζάζης | Dimitrios Kazazis</title>
     <style>
       /* ——— General Layout ——— */
       * {
@@ -30,27 +30,19 @@
       }
 
       /* ——— Navigation Button ——— */
-      .book-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        width: 4cm;   /* πλάτος */
-        height: 2cm;  /* ύψος */
-        box-sizing: border-box; /* ώστε το border/padding να υπολογίζεται σωστά */
-        padding: 0.25rem;
+      .home-btn {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.75rem 1.5rem;
         background: #fff;
         color: #002f5f;
         border: 2px solid #fff;
         border-radius: 4px;
         font-weight: bold;
         text-decoration: none;
-        line-height: 1.2;
-        white-space: normal; /* επιτρέπει αλλαγή γραμμής αν χρειαστεί */
-        overflow-wrap: anywhere;
         transition: background 0.3s, color 0.3s;
       }
-      .book-btn:hover {
+      .home-btn:hover {
         background: transparent;
         color: #fff;
       }
@@ -59,22 +51,13 @@
       main {
         flex: 1;
         width: 100%;
-        max-width: 900px;
+        max-width: 1024px; /* A bit wider for the widget */
         margin: 2rem auto;
         background: #fff;
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      #daily-tips > article {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      #daily-tips > article:last-of-type {
-        border: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
+        text-align: center;
       }
       footer {
         text-align: center;
@@ -89,43 +72,25 @@
       <h1>Δημήτριος Καζάζης</h1>
       <h2>Dimitrios Kazazis</h2>
       <h3>Internist / Ειδικός Παθολόγος</h3>
-      <a class="book-btn" href="appointments.html">Κλείστε Ραντεβού</a>
+      <a class="home-btn" href="/">Αρχική Σελίδα</a>
     </header>
 
     <main>
-      <section id="intro">
-        <p>
-          Καλώς ορίσατε στην προσωπική ιστοσελίδα του Δημήτριου Καζάζη. Στον χώρο
-          αυτόν μοιράζομαι καθημερινές σκέψεις, ιατρικές συμβουλές και θέματα
-          υγείας που θεωρώ ενδιαφέροντα για τους ασθενείς και τους συναδέλφους
-          μου.
-        </p>
-      </section>
+      <h2>Κλείστε το Ραντεβού σας</h2>
+      <p>Επιλέξτε την ημέρα και την ώρα που σας εξυπηρετεί παρακάτω.</p>
 
-      <section id="daily-tips">
-        <h2>Ιατρικές Σκέψεις & Συμβουλές</h2>
-
-        <!--
-        ============================================================
-        Για να προσθέσετε νέο άρθρο:
-        1. Αντιγράψτε το <article> block.
-        2. Επικολλήστε το ακριβώς κάτω από το προηγούμενο.
-        3. Τροποποιήστε την ημερομηνία, τον τίτλο και το περιεχόμενο.
-        ============================================================
-        -->
-
-        <article>
-          <h3>04/08/2025 — Η σημασία της ενυδάτωσης</h3>
-          <p>
-            Η σωστή ενυδάτωση βοηθά στη ρύθμιση της θερμοκρασίας του σώματος,
-            στη λειτουργία των αρθρώσεων και στη μεταφορά των θρεπτικών
-            συστατικών. Στόχος: 6–8 ποτήρια νερό την ημέρα, περισσότερο εάν
-            γυμνάζεστε ή σε περιόδους καύσωνα.
-          </p>
-        </article>
-
-        <!-- Νέα άρθρα εδώ -->
-      </section>
+      <!-- Calendly inline widget begin -->
+      <div
+        class="calendly-inline-widget"
+        data-url="https://calendly.com/d/ckq-p2g-h2s/dimitrios-kazazis-md"
+        style="min-width: 320px; height: 700px"
+      ></div>
+      <script
+        type="text/javascript"
+        src="https://assets.calendly.com/assets/external/widget.js"
+        async
+      ></script>
+      <!-- Calendly inline widget end -->
     </main>
 
     <footer>© 2025 Δημήτριος Καζάζης — All rights reserved.</footer>
