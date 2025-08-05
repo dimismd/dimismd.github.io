@@ -4,11 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Δημήτριος Καζάζης | Dimitrios Kazazis</title>
+
     <style>
       /* ——— General Layout ——— */
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
       body {
         margin: 0;
         font-family: Arial, sans-serif;
@@ -17,17 +16,32 @@
         flex-direction: column;
         min-height: 100vh;
       }
+
+      /* ——— Header ——— */
       header {
         background-color: #002f5f;
         color: #fff;
         padding: 2rem 1rem;
         text-align: center;
+        position: relative; /* needed for absolute link */
       }
-      h1,
-      h2,
-      h3 {
-        margin: 0.25rem 0;
+      header h1 { margin: 0.5rem 0; font-size: 1.9rem; }
+      header h2 { margin: 0.5rem 0; font-size: 1.25rem; }
+      header h3 { margin: 0.5rem 0; font-size: 1rem; }
+
+      /* ——— External reference link (Merck Manual) ——— */
+      .ref-link {
+        position: absolute;
+        top: 0.75rem;   /* λίγο πιο κάτω για να μη "κολλάει" */
+        right: 0.75rem;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        z-index: 10; /* βεβαιώσου ότι εμφανίζεται πάνω απ' όλα */
       }
+      .ref-link:hover { text-decoration: underline; }
+      .ref-link:hover { text-decoration: underline; }
 
       /* ——— Navigation Button ——— */
       .book-btn {
@@ -37,7 +51,7 @@
         text-align: center;
         width: 4cm;   /* πλάτος */
         height: 2cm;  /* ύψος */
-        box-sizing: border-box; /* ώστε το border/padding να υπολογίζεται σωστά */
+        box-sizing: border-box;
         padding: 0.25rem;
         background: #fff;
         color: #002f5f;
@@ -46,14 +60,11 @@
         font-weight: bold;
         text-decoration: none;
         line-height: 1.2;
-        white-space: normal; /* επιτρέπει αλλαγή γραμμής αν χρειαστεί */
+        white-space: normal;
         overflow-wrap: anywhere;
         transition: background 0.3s, color 0.3s;
       }
-      .book-btn:hover {
-        background: transparent;
-        color: #fff;
-      }
+      .book-btn:hover { background: transparent; color: #fff; }
 
       /* ——— Main Content ——— */
       main {
@@ -76,6 +87,7 @@
         margin-bottom: 0;
         padding-bottom: 0;
       }
+
       footer {
         text-align: center;
         font-size: 0.9rem;
@@ -83,48 +95,50 @@
         padding: 1rem 0;
       }
     </style>
+
+    <!-- ——— Blog loader (marked.js) ——— -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      // Φορτώνει δυναμικά Markdown posts
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("posts/posts.json")
+          .then(r => r.ok ? r.json() : [])
+          .then(list => {
+            const container = document.getElementById("dynamic-posts");
+            list.forEach(item => {
+              fetch(`posts/${item.file}`)
+                .then(res => res.text())
+                .then(md => {
+                  const article = document.createElement("article");
+                  article.innerHTML = marked.parse(md);
+                  container.prepend(article);
+                });
+            });
+          })
+          .catch(err => console.error("Blog loader error:", err));
+      });
+    </script>
   </head>
   <body>
     <header>
+      <!-- Merck Manual link -->
+      <a class="ref-link" href="https://www.merckmanuals.com/professional" target="_blank" rel="noopener">Merck&nbsp;Manual&nbsp;(pro)</a>
+
       <h1>Δημήτριος Καζάζης</h1>
       <h2>Dimitrios Kazazis</h2>
       <h3>Internist / Ειδικός Παθολόγος</h3>
-      <a class="book-btn" href="https://dimismd.github.io/appointments.html">Κλείστε Ραντεβού</a>
+      <a class="book-btn" href="/appointments.html">Κλείστε Ραντεβού με τον Ιατρό</a>
     </header>
 
     <main>
       <section id="intro">
-        <p>
-          Καλώς ορίσατε στην προσωπική ιστοσελίδα του Δημήτριου Καζάζη. Στον χώρο
-          αυτόν μοιράζομαι καθημερινές σκέψεις, ιατρικές συμβουλές και θέματα
-          υγείας που θεωρώ ενδιαφέροντα για τους ασθενείς και τους συναδέλφους
-          μου.
-        </p>
+        <p>Καλώς ορίσατε στην προσωπική ιστοσελίδα του Δημήτριου Καζάζη.</p>
       </section>
 
       <section id="daily-tips">
-        <h2>Ιατρικές Σκέψεις & Συμβουλές</h2>
-
-        <!--
-        ============================================================
-        Για να προσθέσετε νέο άρθρο:
-        1. Αντιγράψτε το <article> block.
-        2. Επικολλήστε το ακριβώς κάτω από το προηγούμενο.
-        3. Τροποποιήστε την ημερομηνία, τον τίτλο και το περιεχόμενο.
-        ============================================================
-        -->
-
-        <article>
-          <h3>04/08/2025 — Η σημασία της ενυδάτωσης</h3>
-          <p>
-            Η σωστή ενυδάτωση βοηθά στη ρύθμιση της θερμοκρασίας του σώματος,
-            στη λειτουργία των αρθρώσεων και στη μεταφορά των θρεπτικών
-            συστατικών. Στόχος: 6–8 ποτήρια νερό την ημέρα, περισσότερο εάν
-            γυμνάζεστε ή σε περιόδους καύσωνα.
-          </p>
-        </article>
-
-        <!-- Νέα άρθρα εδώ -->
+        <h2>Σκέψεις & Συμβουλές</h2>
+        <!-- Markdown posts εμφανίζονται εδώ -->
+        <div id="dynamic-posts"></div>
       </section>
     </main>
 
