@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dimismd.github.io/sitemap.xml
