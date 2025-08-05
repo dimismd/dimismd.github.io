@@ -48,14 +48,39 @@
       /* ——— External reference link (Merck Manual) ——— */
       .ref-link {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 0.75rem;   /* λίγο πιο κάτω για να μη "κολλάει" */
+        right: 0.75rem;
         color: #fff;
-        font-size: 0.9rem;
+        font-size: 1rem;
         font-weight: 600;
         text-decoration: none;
+        z-index: 10; /* βεβαιώσου ότι εμφανίζεται πάνω απ' όλα */
       }
       .ref-link:hover { text-decoration: underline; }
+      .ref-link:hover { text-decoration: underline; }
+
+      /* ——— Navigation Button ——— */
+      .book-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 4cm;   /* πλάτος */
+        height: 2cm;  /* ύψος */
+        box-sizing: border-box;
+        padding: 0.25rem;
+        background: #fff;
+        color: #002f5f;
+        border: 2px solid #fff;
+        border-radius: 4px;
+        font-weight: bold;
+        text-decoration: none;
+        line-height: 1.2;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        transition: background 0.3s, color 0.3s;
+      }
+      .book-btn:hover { background: transparent; color: #fff; }
 
   /* ——— Main Content ——— */
   main {
