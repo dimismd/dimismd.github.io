@@ -34,38 +34,28 @@
   }
 
   /* ——— Header ——— */
-  header {
-    background-color: #002f5f;
-    color: #fff;
-    padding: 2rem 1rem;
-    text-align: center;
-  }
-  header h1 { margin: 0.5rem 0; font-size: 1.9rem; }
-  header h2 { margin: 0.5rem 0; font-size: 1.25rem; }
-  header h3 { margin: 0.5rem 0; font-size: 1rem; }
+      header {
+        background-color: #002f5f;
+        color: #fff;
+        padding: 2rem 1rem;
+        text-align: center;
+        position: relative; /* needed for absolute link */
+      }
+      header h1 { margin: 0.5rem 0; font-size: 1.9rem; }
+      header h2 { margin: 0.5rem 0; font-size: 1.25rem; }
+      header h3 { margin: 0.5rem 0; font-size: 1rem; }
 
-  /* ——— Navigation Button ——— */
-  .book-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 4cm;   /* πλάτος */
-    height: 2cm;  /* ύψος */
-    box-sizing: border-box;
-    padding: 0.25rem;
-    background: #fff;
-    color: #002f5f;
-    border: 2px solid #fff;
-    border-radius: 4px;
-    font-weight: bold;
-    text-decoration: none;
-    line-height: 1.2;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    transition: background 0.3s, color 0.3s;
-  }
-  .book-btn:hover { background: transparent; color: #fff; }
+      /* ——— External reference link (Merck Manual) ——— */
+      .ref-link {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .ref-link:hover { text-decoration: underline; }
 
   /* ——— Main Content ——— */
   main {
@@ -123,6 +113,9 @@
   </head>
   <body>
     <header>
+      <!-- Merck Manual link -->
+      <a class="ref-link" href="https://www.merckmanuals.com/professional" target="_blank" rel="noopener">Merck&nbsp;Manual&nbsp;(pro)</a>
+
       <h1>Δημήτριος Καζάζης</h1>
       <h2>Dimitrios Kazazis</h2>
       <h3>Internist / Ειδικός Παθολόγος</h3>
