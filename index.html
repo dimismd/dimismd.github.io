@@ -82,21 +82,23 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         fetch("posts/posts.json")
-          .then(r => r.ok ? r.json() : [])
-          .then(list => {
+          then(r => (r.ok ? r.json() : []))
+          .then(async (list) => {
             const container = document.getElementById("dynamic-posts");
-            list.forEach(item => {
-              fetch(`posts/${item.file}`)
-                .then(res => res.text())
-                .then(md => {
-                  const article = document.createElement("article");
-                  article.className = 'card';
-                  article.innerHTML = marked.parse(md);
-                  container.prepend(article);
-                });
-            });
+             for (const item of list) {
+              try {
+                const res = await fetch(`posts/${item.file}`);
+                const md = await res.text();
+                const article = document.createElement("article");
+                article.className = 'card';
+                article.innerHTML = marked.parse(md);
+                container.prepend(article);
+              } catch (err) {
+                console.error("Failed to load post", item, err);
+              }
+            }
           })
-          .catch(err => console.error("Blog loader error:", err));
+          .catch((err) => console.error("Blog loader error:", err));
       });
     </script>
   </head>
