@@ -85,7 +85,7 @@
           .then(r => (r.ok ? r.json() : []))
           .then(async (list) => {
             const container = document.getElementById("dynamic-posts");
-             for (const item of list) {
+            for (const item of list) {
               try {
                 const res = await fetch(`posts/${item.file}`);
                 const md = await res.text();
