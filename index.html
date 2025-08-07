@@ -82,7 +82,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         fetch("posts/posts.json")
-          then(r => (r.ok ? r.json() : []))
+          .then(r => (r.ok ? r.json() : []))
           .then(async (list) => {
             const container = document.getElementById("dynamic-posts");
              for (const item of list) {
