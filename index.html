@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="el">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Δημήτριος Καζάζης | Dimitrios Kazazis</title>
+
+    <style>
+      /* ——— General Layout ——— */
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* ——— Header ——— */
+      header {
+        background-color: #002f5f;
+        color: #fff;
+        padding: 2rem 1rem;
+        text-align: center;
+        position: relative;
+      }
+      header h1 { margin: 0.5rem 0; font-size: 1.9rem; }
+      header h2 { margin: 0.5rem 0; font-size: 1.25rem; }
+      header h3 { margin: 0.5rem 0; font-size: 1rem; }
+
+      /* ——— Language switch ——— */
+      .lang-switch {
+        position: absolute;
+        top: 0.75rem; right: 0.75rem;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.35);
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #fff; font-weight: 600; font-size: 0.9rem;
+      }
+      .lang-switch:hover { background: rgba(255,255,255,0.25); }
+
+      /* ——— Book button ——— */
+      .book-btn {
+        display: inline-flex; align-items: center; justify-content: center; text-align: center;
+        width: 4cm; height: 2cm; box-sizing: border-box; padding: 0.25rem;
+        background: #fff; color: #002f5f; border: 2px solid #fff; border-radius: 4px;
+        font-weight: bold; text-decoration: none; line-height: 1.2; white-space: normal; overflow-wrap: anywhere;
+        transition: background 0.3s, color 0.3s;
+      }
+      .book-btn:hover { background: transparent; color: #fff; }
+
+      /* ——— Layout (content + right sidebar) ——— */
+      main { flex: 1; width: 100%; max-width: 1100px; margin: 2rem auto; }
+      .layout { display: grid; grid-template-columns: 1fr 280px; gap: 2rem; }
+      @media (max-width: 900px) {
+        .layout { grid-template-columns: 1fr; }
+        .sidebar { position: static; transform: none; }
+      }
+
+      /* ——— Cards ——— */
+      .card {
+        background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      }
+
+      /* ——— Sidebar ——— */
+      .sidebar { position: sticky; top: 50%; transform: translateY(-50%); height: fit-content; }
+      .sidebar h3 { margin-top: 0; text-align: center; }
+      .sidebar ul { list-style: none; padding: 0; margin: 0; }
+      .sidebar li { margin: 0.5rem 0; }
+      .sidebar a { color: #002f5f; text-decoration: none; font-weight: 600; }
+      .sidebar a:hover { text-decoration: underline; }
+
+      /* ——— Footer ——— */
+      footer { text-align: center; font-size: 0.9rem; color: #700; padding: 1rem 0; }
+    </style>
+
+    <!-- ——— Blog loader (marked.js) ——— -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.1/marked.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("posts/posts.json")
+          .then(r => (r.ok ? r.json() : []))
+          .then(async (list) => {
+            const container = document.getElementById("dynamic-posts");
+            for (const item of list) {
+              try {
+                const res = await fetch(`posts/${item.file}`);
+                const md = await res.text();
+                const article = document.createElement("article");
+                article.className = 'card';
+                article.innerHTML = marked.parse(md);
+                container.prepend(article);
+              } catch (err) {
+                console.error("Failed to load post", item, err);
+              }
+            }
+          })
+          .catch((err) => console.error("Blog loader error:", err));
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <a class="lang-switch" href="/en/">EN</a>
+      <h1>Δημήτριος Καζάζης</h1>
+      <h2>Dimitrios Kazazis</h2>
+      <h3>Internist / Ειδικός Παθολόγος</h3>
+      <a class="book-btn" href="/appointments.html">Κλείστε Ραντεβού με τον Ιατρό</a>
+    </header>
+
+    <main>
+      <div class="layout">
+        <section class="card" id="intro">
+          <p>Καλώς ορίσατε στην προσωπική ιστοσελίδα του Δημήτριου Καζάζη.</p>
+          <section id="daily-tips">
+            <h2>Σκέψεις & Συμβουλές</h2>
+            <div id="dynamic-posts"></div>
+          </section>
+        </section>
+
+        <aside class="sidebar card">
+          <h3>Διαβάζουμε</h3>
+          <ul>
+            <li><a href="https://www.merckmanuals.com/professional" target="_blank" rel="noopener">Merck Manual (Professional)</a></li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <footer>© 2025 Δημήτριος Καζάζης — All rights reserved.</footer>
+  </body>
+</html>

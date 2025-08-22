@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dimitrios Kazazis | Internist</title>
+    <style>
+      /* ——— General Layout ——— */
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f4; }
+
+      /* ——— Header ——— */
+      header {
+        background-color: #002f5f;
+        color: #fff;
+        padding: 2rem 1rem;
+        text-align: center;
+        position: relative;
+      }
+      header h1 { margin: 0.5rem 0; font-size: 1.9rem; }
+      header h2 { margin: 0.5rem 0; font-size: 1.25rem; }
+
+      /* ——— Language switch ——— */
+      .lang-switch { position: absolute; top: .75rem; right: .75rem; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35); padding: .2rem .5rem; border-radius: 4px; color: #fff; text-decoration: none; font-weight: 600; font-size: .9rem; }
+      .lang-switch:hover { background: rgba(255,255,255,.25); }
+
+      /* ——— Book button ——— */
+      .book-btn { display: inline-flex; align-items: center; justify-content: center; width: 4cm; height: 2cm; box-sizing: border-box; padding: .25rem; background: #fff; color: #002f5f; border: 2px solid #fff; border-radius: 4px; font-weight: bold; text-decoration: none; line-height: 1.2; transition: background .3s, color .3s; }
+      .book-btn:hover { background: transparent; color: #fff; }
+
+      /* ——— Layout (content + right sidebar) ——— */
+      main { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+      .layout { display: grid; grid-template-columns: 1fr 280px; gap: 2rem; }
+      @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sidebar { position: static; transform: none; } }
+
+      /* ——— Cards ——— */
+      .card { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,.1); }
+
+      /* ——— Sidebar ——— */
+      .sidebar { position: sticky; top: 50%; transform: translateY(-50%); height: fit-content; }
+      .sidebar h3 { margin-top: 0; text-align: center; }
+      .sidebar ul { list-style: none; padding: 0; margin: 0; }
+      .sidebar li { margin: .5rem 0; }
+      .sidebar a { color: #002f5f; text-decoration: none; font-weight: 600; }
+      .sidebar a:hover { text-decoration: underline; }
+
+      /* ——— Footer ——— */
+      footer { text-align: center; font-size: .9rem; color: #700; padding: 1rem 0; }
+    </style>
+
+    <!-- ——— (Optional) Blog loader to show same posts as GR ——— -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.1/marked.min.js"></script>
+    <script>
+      // --- Automatic on-the-fly translation (EL → EN) ---
+      // Uses a LibreTranslate-compatible endpoint. You can replace with your own for reliability.
+      const TRANSLATE_URL = "https://libretranslate.com/translate"; // changeable
+
+      async function translateElToEn(text) {
+        try {
+          const res = await fetch(TRANSLATE_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ q: text, source: "el", target: "en", format: "text" })
+          });
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          const data = await res.json();
+          return data.translatedText || text;
+        } catch (e) {
+          console.warn("Translate failed, showing Greek:", e);
+          return text; // fallback to Greek if translation fails
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        fetch("/posts/posts.json")
+          .then(r => (r.ok ? r.json() : []))
+          .then(async (list) => {
+            const container = document.getElementById("dynamic-posts");
+            for (const item of list) {
+              try {
+                const res = await fetch(`/posts/${item.file}`);
+                const md = await res.text();
+                const translated = await translateElToEn(md);
+                const article = document.createElement("article");
+                article.className = 'card';
+                article.innerHTML = marked.parse(translated);
+                container.prepend(article);
+              } catch (err) {
+                console.error("Failed to load/translate post", item, err);
+              }
+            }
+          })
+          .catch((err) => console.error("Blog loader error:", err));
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <a class="lang-switch" href="/">GR</a>
+      <h1>Dimitrios Kazazis</h1>
+      <h2>Internist (Internal Medicine)</h2>
+      <a class="book-btn" href="/appointments.html">Book an appointment</a>
+    </header>
+
+    <main>
+      <div class="layout">
+        <section class="card">
+          <p>Welcome to the personal website of Dr. Dimitrios Kazazis.</p>
+          <h2>Thoughts & Tips</h2>
+          <div id="dynamic-posts"></div>
+        </section>
+
+        <aside class="sidebar card">
+          <h3>Reading</h3>
+          <ul>
+            <li><a href="https://www.merckmanuals.com/professional" target="_blank" rel="noopener">Merck Manual (Professional)</a></li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <footer>© 2025 Dimitrios Kazazis — All rights reserved.</footer>
+  </body>
+</html>
